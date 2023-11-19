@@ -8,9 +8,9 @@ from time          import mktime
 from json          import loads, dumps
 from re            import compile
 
-res = get("https://discord.com/login").text
+_res = get("https://discord.com/login").text
 file_with_build_num = 'https://discord.com/assets/' + \
-    compile(r'assets/+([a-z0-9]+)\.js').findall(res)[-2]+'.js'
+    compile(r'assets/+([a-z0-9]+)\.js').findall(_res)[-2]+'.js'
 req_file_build = get(file_with_build_num).text
 build_number = req_file_build.split('build number ".concat("')[1].split('"')[0]
 
@@ -179,3 +179,18 @@ class Discord:
             return f'captcha_solve_{response.json()["captcha_rqtoken"]}_{response.json()["captcha_rqdata"]}'
         else:
             return response.text
+    
+    def change_at_me(self, payload:dict=None):
+        response = self.session.patch(
+            'https://discord.com/api/v9/users/@me',
+            json=payload
+        )
+        match response.status_code:
+            case 200:
+                return True
+            case 401:
+                return "locked"
+            case 400:
+                return "captcha"
+            case _:
+                return response.text
