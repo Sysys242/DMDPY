@@ -1,0 +1,9 @@
+thread: 1
+
+captcha:
+  service: '' # Leave blank to do not solve | ['hcoptcha', 'capmonster'] | https://t.me/iscapworking
+  key: '' # the service api key
+
+friender:
+  number: 9 # When this number reached it will skip
+  retry-on-cap: 1
