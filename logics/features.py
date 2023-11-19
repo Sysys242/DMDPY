@@ -1,3 +1,4 @@
+from .display_changer       import display_task
 from .avatar_changer        import avatar_task
 from .fast_friender         import fast_friending_task
 from .server_joiner         import joining_task
@@ -13,6 +14,7 @@ features = {
     'Tos Accepter': tos_task,
 
     'Avatar Changer': avatar_task,
+    'Display Changer': display_task,
 }
 
 def get_features() -> dict:
