@@ -194,3 +194,18 @@ class Discord:
                 return "captcha"
             case _:
                 return response.text
+    
+    def change_profile(self, payload:dict=None):
+        response = self.session.patch(
+            'https://discord.com/api/v9/users/%40me/profile',
+            json=payload
+        )
+        match response.status_code:
+            case 200:
+                return True
+            case 401:
+                return "locked"
+            case 400:
+                return "captcha"
+            case _:
+                return response.text
