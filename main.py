@@ -1,10 +1,14 @@
 from logics.features import get_features
 from modules.utils   import Utils
-from time            import sleep
+from time            import sleep, time
 
 logger = Utils.get_logger()
 
 if __name__ == "__main__":
+    Utils.set_title({
+            'Module': 'Main Menu'
+        }, time())
+
     features = get_features()
 
     while True:

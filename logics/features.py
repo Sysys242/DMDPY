@@ -6,17 +6,27 @@ from .tos_accepter          import tos_task
 from .bio_changer           import bio_task
 from .friender              import friending_task
 
+def soon():
+    print("Soon...")
+
 features = {
     'Friender': friending_task,
     'Fast Friender': fast_friending_task,
     
     'Joiner': joining_task,
+    'Mass Dm': soon,
+    'Member Scapper': soon,
+
 
     'Tos Accepter': tos_task,
 
     'Bio Changer': bio_task,
     'Avatar Changer': avatar_task,
     'Display Changer': display_task,
+    'Token Checker': soon,
+
+
+    'Proxy Checker': soon,
 }
 
 def get_features() -> dict:
