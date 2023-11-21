@@ -1,10 +1,11 @@
-from .display_changer       import display_task
-from .avatar_changer        import avatar_task
-from .fast_friender         import fast_friending_task
-from .server_joiner         import joining_task
-from .tos_accepter          import tos_task
-from .bio_changer           import bio_task
-from .friender              import friending_task
+from logics.member_scrapper       import scrapping_task
+from logics.display_changer       import display_task
+from logics.avatar_changer        import avatar_task
+from logics.fast_friender         import fast_friending_task
+from logics.server_joiner         import joining_task
+from logics.tos_accepter          import tos_task
+from logics.bio_changer           import bio_task
+from logics.friender              import friending_task
 
 def soon():
     print("Soon...")
@@ -15,7 +16,7 @@ features = {
     
     'Joiner': joining_task,
     'Mass Dm': soon,
-    'Member Scapper': soon,
+    'Member Scapper': scrapping_task,
 
 
     'Tos Accepter': tos_task,

@@ -7,3 +7,6 @@ captcha:
 friender:
   number: 9 # When this number reached it will skip
   retry-on-cap: 1
+
+scrapper:
+  dellay: 1500 # in ms
