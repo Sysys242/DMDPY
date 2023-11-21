@@ -1,6 +1,7 @@
 from logics.member_scrapper       import scrapping_task
 from logics.display_changer       import display_task
 from logics.avatar_changer        import avatar_task
+from logics.token_checker         import checking_task
 from logics.fast_friender         import fast_friending_task
 from logics.server_joiner         import joining_task
 from logics.tos_accepter          import tos_task
@@ -24,10 +25,7 @@ features = {
     'Bio Changer': bio_task,
     'Avatar Changer': avatar_task,
     'Display Changer': display_task,
-    'Token Checker': soon,
-
-
-    'Proxy Checker': soon,
+    'Token Checker': checking_task,
 }
 
 def get_features() -> dict:

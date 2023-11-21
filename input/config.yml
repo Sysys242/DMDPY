@@ -10,3 +10,6 @@ friender:
 
 scrapper:
   dellay: 1500 # in ms
+
+token-checker:
+  thread: 1

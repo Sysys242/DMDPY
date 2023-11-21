@@ -14,9 +14,10 @@ if __name__ == "__main__":
     while True:
         logger.print_banner('Welcome to DMDPY')
         logger.delay_print(logger.center(features[1]))
+        print()
 
         try:
-            choice = logger.delay_input('Please select an option> ')
+            choice = logger.delay_input('Please select an option> ', 0.005)
             choice = int(choice)-1
         except ValueError as e:
             logger.error('Invalid choice...')

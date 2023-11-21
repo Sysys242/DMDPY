@@ -28,7 +28,7 @@ class Utils:
 
         return session
     
-    def get_config(reload=False):
+    def get_config(reload=True):
         return safe_load(config.get_content(reload))
     
     def get_logger() -> Logger:
