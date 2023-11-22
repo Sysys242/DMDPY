@@ -118,7 +118,7 @@ def checking_task():
     Thread(target=title_thread).start()
     Thread(target=writting_thread).start()
     while len(tokens) > 0:
-        while len(thread_list) >= config['checker']['thread']:
+        while len(thread_list) >= config['token-checker']['thread']:
             sleep(0.1)
             for thread in thread_list:
                 if not thread.is_alive():

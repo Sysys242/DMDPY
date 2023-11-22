@@ -17,7 +17,7 @@ if __name__ == "__main__":
         print()
 
         try:
-            choice = logger.delay_input('Please select an option> ', 0.005)
+            choice = logger.delay_input('Please select an option> ', 0.0001)
             choice = int(choice)-1
         except ValueError as e:
             logger.error('Invalid choice...')

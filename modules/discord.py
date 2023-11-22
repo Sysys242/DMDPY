@@ -19,18 +19,24 @@ xprops = {
    "browser":"Chrome",
    "device":"",
    "system_locale":"fr-FR",
-   "browser_user_agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
-   "browser_version":"118.0.0.0",
+   "browser_user_agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+   "browser_version":"119.0.0.0",
    "os_version":"10",
-   "referrer":"https://discord.com/login",
-   "referring_domain":"discord.com",
-   "referrer_current":"https://discord.com/login",
-   "referring_domain_current":"discord.com",
+   "referrer":"",
+   "referring_domain":"",
+   "referrer_current":"",
+   "referring_domain_current":"",
    "release_channel":"stable",
    "client_build_number":build_number,
-   "client_event_source":None
+   "client_event_source":None,
+   "design_id":0
 }
 xsuperprops = b64encode(dumps(xprops).encode()).decode()
+
+def nonce():
+    date = datetime.now()
+    unixts = mktime(date.timetuple())
+    return str((int(unixts) * 1000 - 1420070400000) * 4194304)
 
 class Discord:
     def __init__(self, token:str, proxies:str) -> None:
@@ -41,9 +47,10 @@ class Discord:
         self.session.headers = {
             'authority': 'discord.com',
             'accept': '*/*',
-            'accept-language': 'fr-FR,fr;q=0.7',
+            'accept-language': 'fr-FR,fr;q=0.8',
             'authorization': token,
-            'referer': 'https://discord.com/channels/@me',
+            'content-type': 'application/json',
+            'origin': 'https://discord.com',
             'sec-ch-ua': '"Brave";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
@@ -62,11 +69,15 @@ class Discord:
         self.ws = WebSocket()
         self.ws.connect('wss://gateway-us-east1-c.discord.gg/?encoding=json&v=9')
         self.ws.recv()
-        self.ws.send('{"op":2,"d":{"token":"' + self.token + '","capabilities":16381,"properties":{"os":"Windows","browser":"Chrome","device":"","system_locale":"fr-FR","browser_user_agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36","browser_version":"119.0.0.0","os_version":"10","referrer":"","referring_domain":"","referrer_current":"","referring_domain_current":"","release_channel":"stable","client_build_number":247232,"client_event_source":null},"presence":{"status":"online","since":0,"activities":[],"afk":false},"compress":false,"client_state":{"guild_versions":{},"highest_last_message_id":"0","read_state_version":0,"user_guild_settings_version":-1,"user_settings_version":-1,"private_channels_version":"0","api_code_version":0}}}')
+        self.ws.send('{"op":2,"d":{"token":"' + self.token + '","capabilities":16381,"properties":{"os":"Windows","browser":"Chrome","device":"","system_locale":"fr-FR","browser_user_agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36","browser_version":"119.0.0.0","os_version":"10","referrer":"","referring_domain":"","referrer_current":"","referring_domain_current":"","release_channel":"stable","client_build_number":247539,"client_event_source":null},"presence":{"status":"online","since":0,"activities":[],"afk":false},"compress":false,"client_state":{"guild_versions":{},"highest_last_message_id":"0","read_state_version":0,"user_guild_settings_version":-1,"user_settings_version":-1,"private_channels_version":"0","api_code_version":0}}}')
+        
         res = loads(self.ws.recv())
+
         self.analytics_token = res["d"]["analytics_token"]
         self.session_id = res['d']['session_id']
+
         self.ws.send('{"op":4,"d":{"guild_id":null,"channel_id":null,"self_mute":true,"self_deaf":false,"self_video":false,"flags":2}}')
+
         self.send_science()
 
     def unflag(self):
@@ -172,7 +183,7 @@ class Discord:
         elif response.status_code == 404:
             return 'invalid'
         elif response.status_code == 403:
-            return 'invalid'
+            return 'locked'
         elif response.status_code == 400:
             if 'captcha_rqtoken' not in response.json():
                 return 'locked'
@@ -190,6 +201,8 @@ class Discord:
                 return True
             case 401:
                 return "locked"
+            case 403:
+                return "locked"
             case 400:
                 return "captcha"
             case _:
@@ -205,7 +218,60 @@ class Discord:
                 return True
             case 401:
                 return "locked"
+            case 403:
+                return "locked"
             case 400:
                 return "captcha"
+            case _:
+                return response.text
+    
+    def open_channel(self, id:str) -> str:
+        response = self.session.post(
+                'https://discord.com/api/v9/users/@me/channels',
+                json={
+                    'recipients': [ id ]
+                }
+        )
+        match response.status_code:
+            case 200:
+                return [True, response.json()['id']]
+            case 401:
+                return "locked"
+            case 403:
+                return "locked"
+            case 429:
+                return "sleep"
+            case _:
+                return [False, response.text]
+        
+    def send_message(self, content:str, c_id:str, captchaDict:dict=None):
+        headers = self.session.headers.copy()
+
+        if captchaDict != None:
+            headers['X-Captcha-Rqtoken'] = captchaDict['X-Captcha-Rqtoken']
+            headers['X-Captcha-Key'] = captchaDict['X-Captcha-Key']
+
+        response = self.session.post(
+            f'https://discord.com/api/v9/channels/{c_id}/messages',
+            headers=headers,
+            json={
+                'content': content,
+                'nonce': nonce(),
+                'tts': False,
+                'flags': 0
+            }
+        )
+
+        match response.status_code:
+            case 200:
+                return True
+            case 401:
+                return "locked"
+            case 403:
+                return "locked"
+            case 400:
+                return f'captcha_solve_{response.json()["captcha_rqtoken"]}_{response.json()["captcha_rqdata"]}'
+            case 429:
+                return "sleep"
             case _:
                 return response.text

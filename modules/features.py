@@ -7,6 +7,7 @@ from logics.server_joiner         import joining_task
 from logics.tos_accepter          import tos_task
 from logics.bio_changer           import bio_task
 from logics.friender              import friending_task
+from logics.mass_dm               import dming_task
 
 def soon():
     print("Soon...")
@@ -16,7 +17,7 @@ features = {
     'Fast Friender': fast_friending_task,
     
     'Joiner': joining_task,
-    'Mass Dm': soon,
+    'Mass Dm': dming_task,
     'Member Scapper': scrapping_task,
 
 

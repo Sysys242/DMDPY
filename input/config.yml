@@ -8,6 +8,12 @@ friender:
   number: 9 # When this number reached it will skip
   retry-on-cap: 1
 
+mass-dm:
+  rate-limit-time: 600 # how much time to sleep when rate limited in s
+  sleep-time: 0 # sleep time in s btw each msg
+  content: "DMDPY on top :)\n https://t.me/dmdpy \n if you recived this, mean you got part of a test, if you don't care, ignore._" # user \n for line break sir ^^
+
+
 scrapper:
   dellay: 1500 # in ms
 
