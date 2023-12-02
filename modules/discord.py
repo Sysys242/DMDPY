@@ -8,11 +8,12 @@ from time          import mktime
 from json          import loads, dumps
 from re            import compile
 
-_res = get("https://discord.com/login").text
-file_with_build_num = 'https://discord.com/assets/' + \
-    compile(r'assets/+([a-z0-9]+)\.js').findall(_res)[-2]+'.js'
-req_file_build = get(file_with_build_num).text
-build_number = req_file_build.split('build number ".concat("')[1].split('"')[0]
+login_response = get('https://discord.com/login')
+good_file = login_response.text.split('<script src="/assets/')
+good_file = good_file[-10].split('"')[0]
+file = 'https://discord.com/assets/' + good_file
+file_response = get(file)
+build_number = file_response.text.split('build number ".concat("')[1].split('"')[0]
 
 xprops = {
    "os":"Windows",
