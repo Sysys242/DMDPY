@@ -31,7 +31,7 @@
 ### ⚙️ Installation
 
 - Requires: `Python`
-- Install requirement: `pip -r requirements.txt`
+- Install requirement: `pip install -r requirements.txt`
 - Start: `py main.py`
 
 ---
