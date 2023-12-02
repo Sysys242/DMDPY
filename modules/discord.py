@@ -121,6 +121,15 @@ class Discord:
             }
         )
 
+    def get_user_from_id(self, id:str):
+        response = self.session.get(
+            f'https://discord.com/api/users/{id}'
+        ).json()
+        if response["discriminator"] == "0":
+            return f'{response["username"]}#null'
+        else:
+            return f'{response["username"]}#{response["discriminator"]}'
+
     def add_relationship(self, username:str, discriminator:int=None):
         response = self.session.post(
             'https://discord.com/api/v9/users/@me/relationships',

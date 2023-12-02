@@ -6,6 +6,7 @@ from logics.fast_friender         import fast_friending_task
 from logics.server_joiner         import joining_task
 from logics.tos_accepter          import tos_task
 from logics.bio_changer           import bio_task
+from logics.id_to_user            import itu_task
 from logics.friender              import friending_task
 from logics.mass_dm               import dming_task
 
@@ -27,6 +28,8 @@ features = {
     'Avatar Changer': avatar_task,
     'Display Changer': display_task,
     'Token Checker': checking_task,
+
+    'Id To User': itu_task,
 }
 
 def get_features() -> dict:
