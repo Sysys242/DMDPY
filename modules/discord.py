@@ -143,6 +143,8 @@ class Discord:
             return True
         elif 'captcha' in response.text:
             return 'captcha'
+        elif '40002' in response.text:
+            return 'locked'
         else:
             return response.text
     
@@ -177,7 +179,7 @@ class Discord:
         if rqtoken != None:
             headers.update({
                 "x-captcha-rqtoken": rqtoken,
-                "x-captcha-key": captcha_key
+                "x-captcha-key": captcha_key[1]
             })
         response = self.session.post(
             f'https://discord.com/api/v9/invites/{invite}',
@@ -189,7 +191,10 @@ class Discord:
         if response.status_code == 200:
             return True
         elif response.status_code == 429:
-            return f'rate_limited_{round(response.json()["retry_after"])+1}'
+            try:
+                return f'rate_limited_{round(response.json()["retry_after"])+1}'
+            except:
+                return "cloudflare_rate_limite"
         elif response.status_code == 404:
             return 'invalid'
         elif response.status_code == 403:
