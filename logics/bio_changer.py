@@ -52,7 +52,7 @@ def bio_task():
         accepted = discord.change_profile({'bio': bio})
         while accepted not in [True, 'locked', 'captcha']:
             logger.error(f'{token[:-10]}********** {accepted}')
-            accepted = discord.change_at_me({'bio': bio})
+            accepted = discord.change_profile({'bio': bio})
         match accepted:
             case True:
                 logger.success(f'{token[:-10]}********** Changed bio')
