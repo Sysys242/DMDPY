@@ -8,12 +8,9 @@ from time          import mktime
 from json          import loads, dumps
 from re            import compile
 
-login_response = get('https://discord.com/login')
-good_file = login_response.text.split('<script src="/assets/')
-good_file = good_file[-10].split('"')[0]
-file = 'https://discord.com/assets/' + good_file
-file_response = get(file)
-build_number = file_response.text.split('build number ".concat("')[1].split('"')[0]
+script_files = get('https://discord.com/register').text.split('<script src="')
+script = script_files[11].split('" defer></script>')[0]
+build_number = get("https://discord.com" + script).text.split('"buildNumber",(_="')[1].split('"')[0]
 
 xprops = {
    "os":"Windows",
