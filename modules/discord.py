@@ -182,8 +182,7 @@ class Discord:
             f'https://discord.com/api/v9/invites/{invite}',
             headers=headers,
             json={
-                #'session_id': self.session_id,
-                'session_id': 'noire'
+                'session_id': self.session_id
             }
         )
         if response.status_code == 200:
