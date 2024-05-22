@@ -32,7 +32,7 @@
 
 - Requires: `Python`
 - Install requirement: `pip install -r requirements.txt`
-- Update tls_client binary ( check https://github.com/FlorianREGAZ/Python-Tls-Client/blob/master/scripts/update_shared_libraries.py )
+- Update tls_client binary ( check [here](https://github.com/FlorianREGAZ/Python-Tls-Client/blob/master/scripts/update_shared_libraries.py) )
 - Start: `py main.py`
 
 ---
