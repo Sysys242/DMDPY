@@ -17,7 +17,7 @@ class Utils:
 
     def get_tls_client(proxy:str) -> Session:
         session = Session(
-            client_identifier="chrome_118",
+            client_identifier="chrome_124",
             random_tls_extension_order=True
         )
         if proxy != '':

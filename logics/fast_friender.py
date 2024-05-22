@@ -75,6 +75,9 @@ def fast_friending_task():
                     case 'captcha':
                         captcha += 1
                         logger.error(f'{token[:-10]}********** Failed to add {user} | {res} | {added}')
+                    case 'locked':
+                        captcha += 1
+                        logger.error(f'{token[:-10]}********** Failed to add {user} | locked | {added}')
                     case _:
                         failed += 1
                         logger.error(f'{token[:-10]}********** Failed to add {user} | {res} | {added}')

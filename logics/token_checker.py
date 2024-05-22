@@ -93,7 +93,7 @@ def checking_task():
                 )
                 match response.status_code:
                     case 200:
-                        valid.append(_token); _valid += 1
+                        valid.append(token); _valid += 1
                         logger.success(f'{_token} Valid')
                     case 401:
                         invalid.append(token); _invalid += 1

@@ -1,7 +1,7 @@
-thread: 1
+thread: 50
 
 captcha:
-  service: '' # Leave blank to do not solve | ['hcoptcha', 'capmonster'] | https://t.me/iscapworking
+  service: '' # Leave blank to do not solve | ['hcoptcha', 'capmonster', 'dchcaptcha'] | https://t.me/iscapworking
   key: '' # the service api key
 
 friender:
