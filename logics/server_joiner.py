@@ -60,7 +60,7 @@ def joining_task():
                 break
             except Exception as e:
                 logger.error(f'{token[:-10]}********** {e}')
-        #discord.connect_to_ws()
+        discord.connect_to_ws()
 
         finished = False
         tried = 0
