@@ -7,7 +7,6 @@ from httpx         import get
 from time          import mktime
 from json          import loads, dumps
 import re
-from re            import compile
 
 html_content = get('https://discord.com/register').text
 end_pos = html_content.find('" defer></script>')
