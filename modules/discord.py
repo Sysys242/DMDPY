@@ -6,11 +6,20 @@ from base64        import b64encode
 from httpx         import get
 from time          import mktime
 from json          import loads, dumps
+import re
 from re            import compile
 
-script_files = get('https://discord.com/register').text.split('<script src="')
-script = script_files[11].split('" defer></script>')[0]
-build_number = get("https://discord.com" + script).text.split('"buildNumber",(_="')[1].split('"')[0]
+html_content = get('https://discord.com/register').text
+end_pos = html_content.find('" defer></script>')
+if end_pos != -1:
+    start_pos = html_content.rfind('<script src="', 0, end_pos)
+    if start_pos != -1:
+        script_tag = html_content[start_pos:end_pos + len('" defer></script>')]
+        script = script_tag[len('<script src="'):-len('" defer></script>')]
+
+js_content = get("https://discord.com" + script).text
+build_number = re.search(r'buildNumber:"(\d{6})"', js_content).group(1)
+
 
 xprops = {
    "os":"Windows",
